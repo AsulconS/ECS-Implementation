@@ -1,11 +1,12 @@
-#include "ecs/component.hpp"
+#define  ECS_IMPLEMENTATION
+#include "ecs.hpp"
 
 int main()
 {
     TestComponent3::ID;
 
-    ComponentManager::createComponent<Transform>(0);
-    ComponentManager::createComponent<TestComponent2>(0);
+    ComponentManager::addComponent<Transform>(0);
+    ComponentManager::addComponent<TestComponent2>(0);
 
     Transform* transform = ComponentManager::getComponent<Transform>(0);
     TestComponent2* test = ComponentManager::getComponent<TestComponent2>(0);

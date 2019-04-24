@@ -14,53 +14,18 @@ public:
     static uint32 registerComponent(size_t size);
 
     template <typename C>
-    static C* getComponentInternal(EntityID entityID, bool getting)
-    {
-        if(componentMemory[C::ID].size() == 0)
-        {
-            if (getting) std::cerr << "The Entity does'n have this component!" << std::endl;
-            return NULL;
-        }
-        uint8* limit = &componentMemory[C::ID][componentMemory[C::ID].size() - 1]; // This is the address of the last component
-        uint8* ptr = &componentMemory[C::ID][0]; // This is the address of the first component
-        C* validator = (C*)ptr;
-        while(validator->entity != entityID)
-        {
-            ptr += componentSizes[C::ID];
-            if(ptr < limit)
-                validator = (C*)ptr;
-            else
-            {
-                if (getting) std::cerr << "The Entity does'n have this component!" << std::endl;
-                return NULL;
-            }
-        }
-        return validator;
-    }
+    static C* getComponent(EntityID entityID);
 
     template <typename C>
-    static C* getComponent(EntityID entityID)
-    {
-        getComponentInternal<C>(entityID, true);
-    }
-
-    template <typename C>
-    static void createComponent(EntityID entityID)
-    {
-        if(getComponentInternal<C>(entityID, false) != NULL)
-        {
-            std::cerr << "This Entity already has this component!" << std::endl;
-            return;
-        }
-        uint32 index = componentMemory[C::ID].size();
-        componentMemory[C::ID].resize(index + componentSizes[C::ID]);
-        C* component = new(&componentMemory[C::ID][index]) C;
-        component->entity = entityID;
-    }
+    static void addComponent(EntityID entityID);
 
 private:
     static Array<size_t> componentSizes;
     static Array<Array<uint8>> componentMemory;
+
+    // This template is restricted for inherited Base Coponent Type
+    template <typename C>
+    static C* getComponentInternal(EntityID entityID, bool getting);
 };
 
 struct BaseComponent
@@ -73,9 +38,6 @@ struct Component : public BaseComponent
 {
     static const uint32 ID;
 };
-
-template <typename T>
-const uint32 Component<T>::ID(ComponentManager::registerComponent(sizeof(T)));
 
 struct Vec3
 {
