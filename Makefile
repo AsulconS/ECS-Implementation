@@ -9,11 +9,11 @@ all: build trash
 build: $(OBJECTS)
 	$(CXX) $(CXX_FLAGS) $(OBJECTS) $(INCLUDE) -o main
 
-component.o: component.cpp
-	$(CXX) $(CXX_FLAGS) $(INCLUDE) -c component.cpp
-
 main.o: main.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE) -c main.cpp
+
+component.o: component.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE) -c component.cpp
 
 trash:
 	rm -rf *.o

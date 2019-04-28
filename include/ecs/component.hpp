@@ -6,7 +6,7 @@
 #include "system/common.hpp"
 #include "dataStructures.hpp"
 
-typedef uint32 EntityID;
+class BaseSystem;
 
 class ComponentManager
 {
@@ -19,13 +19,19 @@ public:
     template <typename C>
     static void addComponent(EntityID entityID);
 
+    template <typename C>
+    static void printComponents();
+
+    template <typename C>
+    static Array<uint8>& getComponentMemory();
+
 private:
-    static Array<size_t> componentSizes;
+    static uint32 componentIDs;
     static Array<Array<uint8>> componentMemory;
 
     // This template is restricted for inherited Base Coponent Type
     template <typename C>
-    static C* getComponentInternal(EntityID entityID, bool getting);
+    static C* getComponentInternal(EntityID entityID, size_t* index, bool prompt);
 };
 
 struct BaseComponent
@@ -37,6 +43,7 @@ template <typename T>
 struct Component : public BaseComponent
 {
     static const uint32 ID;
+    static const uint32 SIZE;
 };
 
 struct Vec3
@@ -53,12 +60,12 @@ struct Transform : public Component<Transform>
     Vec3 scale;
 };
 
-struct TestComponent2 : public Component<TestComponent2>
+struct TestComponent : public Component<TestComponent>
 {
     float x;
 };
 
-struct TestComponent3 : public Component<TestComponent3>
+struct CharStruct : public Component<CharStruct>
 {
     char c1;
     char c2;

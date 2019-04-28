@@ -1,15 +1,15 @@
-#define  ECS_IMPLEMENTATION
+#define ECS_IMPLEMENTATION
 #include "ecs.hpp"
 
 int main()
 {
-    TestComponent3::ID;
+    CharStruct::ID;
 
     ComponentManager::addComponent<Transform>(0);
-    ComponentManager::addComponent<TestComponent2>(0);
+    ComponentManager::addComponent<TestComponent>(0);
 
     Transform* transform = ComponentManager::getComponent<Transform>(0);
-    TestComponent2* test = ComponentManager::getComponent<TestComponent2>(0);
+    TestComponent* test = ComponentManager::getComponent<TestComponent>(0);
 
     std::cout << transform->position.x << ' ' << transform->position.y << ' ' << transform->position.z << std::endl;
     std::cout << transform->rotation.x << ' ' << transform->rotation.y << ' ' << transform->rotation.z << std::endl;
@@ -27,6 +27,9 @@ int main()
     std::cout << transform->scale.x    << ' ' << transform->scale.y    << ' ' << transform->scale.z    << std::endl;
 
     std::cout << test->x << std::endl;
+
+    MovementSystem movementSystem;
+    movementSystem.printComponents(0);
 
     return 0;
 }
