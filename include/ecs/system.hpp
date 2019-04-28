@@ -10,6 +10,9 @@ public:
 
 protected:
     Map<EntityID, Array<BaseComponent*>> components;
+
+    template <typename C>
+    void getMemory();
 };
 
 class MovementSystem : public BaseSystem
@@ -17,7 +20,7 @@ class MovementSystem : public BaseSystem
 public:
     MovementSystem();
 
-    void printComponents(EntityID entityID);
+    void printComponents();
 };
 
 #endif // ECS_SYSTEM_H

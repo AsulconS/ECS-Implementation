@@ -6,8 +6,6 @@
 #include "system/common.hpp"
 #include "dataStructures.hpp"
 
-class BaseSystem;
-
 class ComponentManager
 {
 public:
@@ -26,7 +24,7 @@ public:
     static Array<uint8>& getComponentMemory();
 
 private:
-    static uint32 componentIDs;
+    static uint32 componentID;
     static Array<Array<uint8>> componentMemory;
 
     // This template is restricted for inherited Base Coponent Type
