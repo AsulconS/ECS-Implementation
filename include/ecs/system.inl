@@ -11,7 +11,6 @@ void BaseSystem::getMemory()
 MovementSystem::MovementSystem() : BaseSystem()
 {
     getMemory<Transform>();
-    getMemory<TestComponent>();
 }
 
 void MovementSystem::printComponents()
@@ -19,5 +18,5 @@ void MovementSystem::printComponents()
     std::cout << "Entities in the Movement System: " << std::endl;
     Map<EntityID, Array<BaseComponent*>>::iterator i;
     for(i = components.begin(); i != components.end(); ++i)
-        std::cout << "Entity " << i->first << " has " << i->second.size() << " components" << std::endl;
+        std::cout << "Entity " << i->first << " has " << i->second.size() << " Transform components" << std::endl;
 }
