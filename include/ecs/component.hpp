@@ -9,7 +9,7 @@
 class ComponentManager
 {
 public:
-    static uint32 registerComponent(size_t size);
+    static uint32 registerComponent();
 
     template <typename C>
     static C* getComponent(EntityID entityID);

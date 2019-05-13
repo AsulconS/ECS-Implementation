@@ -1,5 +1,6 @@
+// The Components are registered into the Manager
 template <typename T>
-const uint32 Component<T>::ID(ComponentManager::registerComponent(sizeof(T)));
+const uint32 Component<T>::ID(ComponentManager::registerComponent());
 
 template <typename T>
 const uint32 Component<T>::SIZE(sizeof(T));
@@ -23,10 +24,9 @@ void ComponentManager::addComponent(EntityID entityID)
     if(index == componentMemory[C::ID].size())
         componentMemory[C::ID].resize(index + C::SIZE);
     else
-    {
         for(int i = 0; i < C::SIZE; ++i)
             componentMemory[C::ID].insert(componentMemory[C::ID].begin() + index, 0);
-    }
+    
     C* component = new(&componentMemory[C::ID][index]) C;
     component->entity = entityID;
 }
@@ -43,9 +43,7 @@ void ComponentManager::printComponents()
     size_t size = componentMemory[C::ID].size() / C::SIZE;
     C* cptr = (C*)&componentMemory[C::ID][0];
     for(size_t i = 0; i < size; ++i)
-    {
         std::cout << (cptr + i)->entity << std::endl;
-    }
 }
 
 template <typename C>
@@ -63,7 +61,7 @@ C* ComponentManager::getComponentInternal(EntityID entityID, size_t* index, bool
     size_t size = componentMemory[C::ID].size() / C::SIZE;
     C* cptr = (C*)&componentMemory[C::ID][0];
 
-    // Here is a simple Binary Search
+    // Here we are a simple Binary Search
     size_t i = 0;
     size_t j = size - 1;
     size_t m = 0;
@@ -72,7 +70,7 @@ C* ComponentManager::getComponentInternal(EntityID entityID, size_t* index, bool
         m = (i + j) / 2;
         if((cptr + m)->entity == entityID)
         {
-            *index = i * C::SIZE;
+            *index = m * C::SIZE; // The actual index where the Component were found
             return cptr + m;
         }
         else if((cptr + m)->entity < entityID)
@@ -82,6 +80,6 @@ C* ComponentManager::getComponentInternal(EntityID entityID, size_t* index, bool
     }
 
     if (prompt) std::cerr << "The Entity does'n have this component!" << std::endl;
-    *index = i * C::SIZE;
+    *index = i * C::SIZE; // The actual index where the Component could be placed
     return NULL;
 }
