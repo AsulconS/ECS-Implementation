@@ -8,6 +8,9 @@ const uint32 Component<T>::SIZE(sizeof(T));
 template <typename C>
 C* ComponentManager::getComponent(EntityID entityID)
 {
+    // Static Assertion: The type must be a component
+    static_assert(std::is_base_of<BaseComponent, C>::value, "|| THE C TYPE MUST BE A *COMPONENT* ||");
+
     size_t index;
     getComponentInternal<C>(entityID, &index, true);
 }
@@ -15,6 +18,9 @@ C* ComponentManager::getComponent(EntityID entityID)
 template <typename C>
 void ComponentManager::addComponent(EntityID entityID)
 {
+    // Static Assertion: The type must be a component
+    static_assert(std::is_base_of<BaseComponent, C>::value, "|| THE C TYPE MUST BE A *COMPONENT* ||");
+
     size_t index;
     if(getComponentInternal<C>(entityID, &index, false) != NULL)
     {
@@ -34,12 +40,18 @@ void ComponentManager::addComponent(EntityID entityID)
 template <typename C>
 Array<uint8>& ComponentManager::getComponentMemory()
 {
+    // Static Assertion: The type must be a component
+    static_assert(std::is_base_of<BaseComponent, C>::value, "|| THE C TYPE MUST BE A *COMPONENT* ||");
+
     return componentMemory[C::ID];
 }
 
 template <typename C>
 void ComponentManager::printComponents()
 {
+    // Static Assertion: The type must be a component
+    static_assert(std::is_base_of<BaseComponent, C>::value, "|| THE C TYPE MUST BE A *COMPONENT* ||");
+
     size_t size = componentMemory[C::ID].size() / C::SIZE;
     C* cptr = (C*)&componentMemory[C::ID][0];
     for(size_t i = 0; i < size; ++i)
@@ -49,6 +61,9 @@ void ComponentManager::printComponents()
 template <typename C>
 C* ComponentManager::getComponentInternal(EntityID entityID, size_t* index, bool prompt)
 {
+    // Static Assertion: The type must be a component
+    static_assert(std::is_base_of<BaseComponent, C>::value, "|| THE C TYPE MUST BE A *COMPONENT* ||");
+
     // Checks if there's at least one component of the C Type
     if(componentMemory[C::ID].size() == 0)
     {

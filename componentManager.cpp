@@ -1,4 +1,4 @@
-#include "ecs/component.hpp"
+#include "ecs/componentManager.hpp"
 
 uint32 ComponentManager::componentID = 0;
 Array<Array<uint8>> ComponentManager::componentMemory;

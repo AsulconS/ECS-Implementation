@@ -1,7 +1,7 @@
 #ifndef ECS_SYSTEM_H
 #define ECS_SYSTEM_H
 
-#include "ecs/component.hpp"
+#include "ecs/componentManager.hpp"
 
 class BaseSystem
 {

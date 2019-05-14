@@ -1,36 +1,7 @@
 #ifndef ECS_COMPONENT_H
 #define ECS_COMPONENT_H
 
-#include <iostream>
-
 #include "system/common.hpp"
-#include "dataStructures.hpp"
-
-class ComponentManager
-{
-public:
-    static uint32 registerComponent();
-
-    template <typename C>
-    static C* getComponent(EntityID entityID);
-
-    template <typename C>
-    static void addComponent(EntityID entityID);
-
-    template <typename C>
-    static void printComponents();
-
-    template <typename C>
-    static Array<uint8>& getComponentMemory();
-
-private:
-    static uint32 componentID;
-    static Array<Array<uint8>> componentMemory;
-
-    // This template is restricted for inherited Base Coponent Type
-    template <typename C>
-    static C* getComponentInternal(EntityID entityID, size_t* index, bool prompt);
-};
 
 struct BaseComponent
 {
@@ -58,9 +29,11 @@ struct Transform : public Component<Transform>
     Vec3 scale;
 };
 
-struct TestComponent : public Component<TestComponent>
+struct BoxCollider : public Component<BoxCollider>
 {
-    float x;
+    bool isTrigger;
+    Vec3 center;
+    Vec3 size;
 };
 
 struct CharStruct : public Component<CharStruct>
@@ -70,4 +43,4 @@ struct CharStruct : public Component<CharStruct>
     char c3;
 };
 
-#endif // ECS_COMPONENT
+#endif // ECS_COMPONENT_H
