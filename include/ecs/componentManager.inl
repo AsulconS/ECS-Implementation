@@ -16,7 +16,7 @@ C* ComponentManager::getComponent(EntityID entityID)
 }
 
 template <typename C>
-void ComponentManager::addComponent(EntityID entityID)
+C* ComponentManager::createComponent(EntityID entityID)
 {
     // Static Assertion: The type must be a component
     static_assert(std::is_base_of<BaseComponent, C>::value, "|| THE C TYPE MUST BE A *COMPONENT* ||");
@@ -25,7 +25,7 @@ void ComponentManager::addComponent(EntityID entityID)
     if(getComponentInternal<C>(entityID, &index, false) != NULL)
     {
         std::cerr << "This Entity already has this component!" << std::endl;
-        return;
+        return NULL;
     }
     if(index == componentMemory[C::ID].size())
         componentMemory[C::ID].resize(index + C::SIZE);
@@ -35,6 +35,28 @@ void ComponentManager::addComponent(EntityID entityID)
     
     C* component = new(&componentMemory[C::ID][index]) C;
     component->entity = entityID;
+
+    return component;
+}
+
+template <typename C>
+void ComponentManager::deleteComponent(EntityID entityID)
+{
+    // Static Assertion: The type must be a component
+    static_assert(std::is_base_of<BaseComponent, C>::value, "|| THE C TYPE MUST BE A *COMPONENT* ||");
+
+    size_t index;
+    if(getComponentInternal<C>(entityID, &index, false) == NULL)
+    {
+        std::cerr << "This Component doesn't exist" << std::endl;
+        return;
+    }
+
+    C* component = (C*)&componentMemory[C::ID][index];
+    component->entity = -1;
+
+    for(int i = 0; i < C::SIZE; ++i)
+        componentMemory[C::ID].insert(componentMemory[C::ID].begin() + index, 0);
 }
 
 template <typename C>

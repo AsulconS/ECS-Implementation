@@ -6,6 +6,8 @@
 #include "system/common.hpp"
 #include "dataStructures.hpp"
 
+#include "ecs/component.hpp"
+
 /* Component Manger:
  * The Component Manager handles how to treat
  * the data into the component containers.
@@ -23,7 +25,9 @@ public:
     static C* getComponent(EntityID entityID);
 
     template <typename C>
-    static void addComponent(EntityID entityID);
+    static C* createComponent(EntityID entityID);
+    template <typename C>
+    static void deleteComponent(EntityID entityID);
 
     template <typename C>
     static void printComponents();
