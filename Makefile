@@ -1,16 +1,14 @@
 CXX = g++
 
 CXX_FLAGS 	= -std=c++11
+OBJECTS 	= main.o
 INCLUDE 	= -Iinclude/
 
 C_OS	:=
-OBJECTS :=
 ifeq ($(OS),Windows_NT)
 	C_OS	+= Windows
-	OBJECTS += main.o componentManager.o
 else
 	C_OS	+= Linux
-	OBJECTS += componentManager.o main.o
 endif
 
 all: os build trash
@@ -23,9 +21,6 @@ build: $(OBJECTS)
 
 main.o: main.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE) -c main.cpp
-
-componentManager.o: componentManager.cpp
-	$(CXX) $(CXX_FLAGS) $(INCLUDE) -c componentManager.cpp
 
 trash:
 	rm -rf *.o

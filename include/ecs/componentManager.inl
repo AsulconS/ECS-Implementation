@@ -1,4 +1,17 @@
+// Regristation for components
+// ---------------------------
+
+uint32 ComponentManager::componentID = 0;
+Vector<List<BaseComponent*>> ComponentManager::componentMemory;
+
+uint32 ComponentManager::registerComponent()
+{
+    componentMemory.push_back(List<BaseComponent*>());
+    return componentID++;
+}
+
 // The Components are registered into the Manager
+// ----------------------------------------------
 template <typename T>
 const uint32 Component<T>::ID(ComponentManager::registerComponent());
 
