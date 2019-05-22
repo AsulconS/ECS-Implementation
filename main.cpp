@@ -3,8 +3,6 @@
 
 int main()
 {
-    CharStruct::ID;
-
     MovementSystem::init();
     MovementSystem::update();
     MovementSystem::destroy();

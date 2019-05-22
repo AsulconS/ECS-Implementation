@@ -38,11 +38,12 @@ struct BoxCollider : public Component<BoxCollider>
     Vec3 size;
 };
 
-struct CharStruct : public Component<CharStruct>
+struct Stats : public Component<Stats>
 {
-    char c1;
-    char c2;
-    char c3;
+    float hp;
+    float damage;
+    float defense;
+    float velocity;
 };
 
 #endif // ECS_COMPONENT_H

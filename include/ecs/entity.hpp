@@ -27,6 +27,19 @@ public:
     virtual void init(uint32 _ID);
     virtual void destroy();
     virtual void print();
+
+    Transform* getTransform() { return (Transform*)components[0]; }
+};
+
+class Soldier : public Entity
+{
+public:
+    virtual void init(uint32 _ID);
+    virtual void destroy();
+    virtual void print();
+
+    Transform* getTransform() { return (Transform*)components[0]; }
+    Stats* getStats() { return (Stats*)components[1]; }
 };
 
 #endif // ECS_ENTITY_H
