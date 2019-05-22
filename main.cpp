@@ -5,10 +5,9 @@ int main()
 {
     CharStruct::ID;
 
-    MovementSystem movementSystem;
-    movementSystem.init();
-    movementSystem.update();
-    movementSystem.destroy();
+    MovementSystem::init();
+    MovementSystem::update();
+    MovementSystem::destroy();
 
     return 0;
 }

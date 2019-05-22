@@ -1,3 +1,5 @@
+EntityManager<EmptyEntity> MovementSystem::entities;
+
 void MovementSystem::init()
 {
     for(size_t i = 0; i < 10; ++i)

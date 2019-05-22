@@ -3,23 +3,15 @@
 
 #include "ecs/entityManager.hpp"
 
-class BaseSystem
+class MovementSystem
 {
 public:
-    virtual void init() = 0;
-    virtual void update() = 0;
-    virtual void destroy() = 0;
-};
-
-class MovementSystem : public BaseSystem
-{
-public:
-    virtual void init();
-    virtual void update();
-    virtual void destroy();
+    static void init();
+    static void update();
+    static void destroy();
 
 private:
-    EntityManager<EmptyEntity> entities;
+    static EntityManager<EmptyEntity> entities;
 };
 
 #endif // ECS_SYSTEM_H
