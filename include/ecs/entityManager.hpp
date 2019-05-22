@@ -3,17 +3,19 @@
 
 #include "ecs/entity.hpp"
 
+template <typename E>
 class EntityManager
 {
 public:
-    template <typename E>
-    static EntityID createEntity();
+    E* createEntity();
+    bool removeEntity(E* entity);
+    void clear();
 
-    static void printEntities();
+    void printEntities();
 
 private:
-    static uint32 entityID;
-    static Array<Entity*> entities;
+    uint32 currentID = 0;
+    List<Entity*> entities;
 };
 
 #endif // ECS_ENTITY_MANAGER_H

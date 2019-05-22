@@ -1,10 +1,10 @@
 #include "ecs/componentManager.hpp"
 
 uint32 ComponentManager::componentID = 0;
-Array<Array<uint8>> ComponentManager::componentMemory;
+Vector<List<BaseComponent*>> ComponentManager::componentMemory;
 
 uint32 ComponentManager::registerComponent()
 {
-    componentMemory.push_back(Array<uint8>(0, 0));
+    componentMemory.push_back(List<BaseComponent*>());
     return componentID++;
 }

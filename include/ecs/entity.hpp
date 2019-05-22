@@ -11,21 +11,22 @@
 class Entity
 {
 public:
-    virtual void init(const uint32 _ID) = 0;
+    virtual void init(uint32 _ID) = 0;
     virtual void destroy() = 0;
-    virtual void printComponents() = 0;
+    virtual void print() = 0;
+
+    uint32 ID;
 
 protected:
-    uint32 ID;
-    Array<BaseComponent*> components;
+    Vector<BaseComponent*> components;
 };
 
 class EmptyEntity : public Entity
 {
 public:
-    virtual void init(const uint32 _ID);
+    virtual void init(uint32 _ID);
     virtual void destroy();
-    virtual void printComponents();
+    virtual void print();
 };
 
 #endif // ECS_ENTITY_H

@@ -1,26 +1,25 @@
 #ifndef ECS_SYSTEM_H
 #define ECS_SYSTEM_H
 
-#include "ecs/componentManager.hpp"
+#include "ecs/entityManager.hpp"
 
 class BaseSystem
 {
 public:
-    BaseSystem() {}
-
-protected:
-    Map<EntityID, Array<BaseComponent*>> components;
-
-    template <typename C>
-    void getMemory();
+    virtual void init() = 0;
+    virtual void update() = 0;
+    virtual void destroy() = 0;
 };
 
 class MovementSystem : public BaseSystem
 {
 public:
-    MovementSystem();
+    virtual void init();
+    virtual void update();
+    virtual void destroy();
 
-    void printComponents();
+private:
+    EntityManager<EmptyEntity> entities;
 };
 
 #endif // ECS_SYSTEM_H

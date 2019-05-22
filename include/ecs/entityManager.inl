@@ -1,25 +1,30 @@
+// ENTITIES
+// --------
+
+void EmptyEntity::init(uint32 _ID)
+{
+    this->ID = _ID;
+    Transform* transform = ComponentManager::createComponent<Transform>(this);
+    transform->position = { 17.5f, 17.5f, 17.5f };
+    transform->scale    = { 18.5f, 18.5f, 18.5f };
+    transform->rotation = { 27.5f, 27.5f, 27.5f };
+
+    components.push_back(transform);
+}
+
+void EmptyEntity::destroy()
+{
+    if(!ComponentManager::deleteComponent<Transform>(this))
+        std::cerr << "Something went wrong with this entity!" << std::endl;
+}
+
 std::ostream& operator<<(std::ostream& o, Vec3& v)
 {
     o << '(' << v.x << ", " << v.y << ", " << v.z << ')';
     return o;
 }
 
-uint32 EntityManager::entityID = 0;
-Array<Entity*> EntityManager::entities;
-
-void EmptyEntity::init(const uint32 _ID)
-{
-    ID = _ID;
-    Transform* transform = ComponentManager::createComponent<Transform>(ID);
-    components.push_back(transform);
-}
-
-void EmptyEntity::destroy()
-{
-    //
-}
-
-void EmptyEntity::printComponents()
+void EmptyEntity::print()
 {
     Transform* transform = (Transform*)components[0];
     std::cout << "TRANSFORM COMPONENT:\n--------------------" << std::endl;
@@ -32,27 +37,55 @@ void EmptyEntity::printComponents()
     std::cout << std::endl;
 }
 
+// ENTITY MANAGER DEFINITIONS
+// --------------------------
+
 template <typename E>
-EntityID EntityManager::createEntity()
+E* EntityManager<E>::createEntity()
 {
     // Ensure The Type is actually an Entity
-    static_assert(std::is_base_of<Entity, E>::value, "The T type MUST be an Entity");
+    static_assert(std::is_base_of<Entity, E>::value, "The E type MUST be an Entity");
 
     E* entity = new E;
-    entity->init(entityID);
+    entity->init(currentID++);
 
     entities.push_back(entity);
 
-    return entityID++;
+    return entity;
 }
 
-void EntityManager::printEntities()
+template <typename E>
+bool EntityManager<E>::removeEntity(E* entity)
 {
-    for(size_t i = 0; i < entities.size(); ++i)
+    List<Entity*>::iterator i;
+    for(i = entities.begin(); i != entities.end(); ++i)
+        if((*i)->ID == entity->ID)
+        {
+            (*i)->destroy();
+            delete (*i);
+            entities.erase(i);
+            return true;
+        }
+    
+    return false;
+}
+
+template <typename E>
+void EntityManager<E>::clear()
+{
+    List<Entity*>::iterator i;
+    for(i = entities.begin(); i != entities.end(); ++i)
     {
-        std::cout << "--------------------------------\n";
-        std::cout << "ENTITY NR. " << i << " PRINTING!\n";
-        std::cout << "--------------------------------\n";
-        entities[i]->printComponents();
+        (*i)->destroy();
+        delete (*i);
     }
+    entities.clear();
+}
+
+template <typename E>
+void EntityManager<E>::printEntities()
+{
+    List<Entity*>::iterator i;
+    for(i = entities.begin(); i != entities.end(); ++i)
+        (*i)->print();
 }

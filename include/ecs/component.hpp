@@ -3,9 +3,11 @@
 
 #include "system/common.hpp"
 
+class Entity;
+
 struct BaseComponent
 {
-    EntityID entity;
+    Entity* entity;
 };
 
 template <typename T>

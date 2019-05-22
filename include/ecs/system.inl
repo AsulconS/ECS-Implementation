@@ -1,22 +1,21 @@
-template <typename C>
-void BaseSystem::getMemory()
+void MovementSystem::init()
 {
-    Array<uint8>& componentMemory = ComponentManager::getComponentMemory<C>();
-    C* cIterator = (C*)&componentMemory[0];
-    size_t size = componentMemory.size() / C::SIZE;
-    for(size_t i = 0; i < size; ++i)
-        components[(cIterator + i)->entity].push_back(cIterator + i);
+    for(size_t i = 0; i < 10; ++i)
+        entities.createEntity();
 }
 
-MovementSystem::MovementSystem() : BaseSystem()
+void MovementSystem::update()
 {
-    getMemory<Transform>();
+    entities.printEntities();
+
+    std::cout << "MEMORY:" << std::endl;
+    List<BaseComponent*>& memory = ComponentManager::getComponentMemory<Transform>();
+    List<BaseComponent*>::iterator i;
+    for(i = memory.begin(); i != memory.end(); ++i)
+        std::cout << ((Transform*)(*i))->position << std::endl;
 }
 
-void MovementSystem::printComponents()
+void MovementSystem::destroy()
 {
-    std::cout << "Entities in the Movement System: " << std::endl;
-    Map<EntityID, Array<BaseComponent*>>::iterator i;
-    for(i = components.begin(); i != components.end(); ++i)
-        std::cout << "Entity " << i->first << " has " << i->second.size() << " Transform components" << std::endl;
+    entities.clear();
 }

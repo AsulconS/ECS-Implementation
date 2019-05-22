@@ -22,26 +22,16 @@ public:
     static uint32 registerComponent();
 
     template <typename C>
-    static C* getComponent(EntityID entityID);
+    static C* createComponent(Entity* entity);
+    template <typename C>
+    static bool deleteComponent(Entity* entity);
 
     template <typename C>
-    static C* createComponent(EntityID entityID);
-    template <typename C>
-    static void deleteComponent(EntityID entityID);
-
-    template <typename C>
-    static void printComponents();
-
-    template <typename C>
-    static Array<uint8>& getComponentMemory();
+    static List<BaseComponent*>& getComponentMemory();
 
 private:
     static uint32 componentID;
-    static Array<Array<uint8>> componentMemory;
-
-    // This template is restricted for inherited Base Coponent Type
-    template <typename C>
-    static C* getComponentInternal(EntityID entityID, size_t* index, bool prompt);
+    static Vector<List<BaseComponent*>> componentMemory;
 };
 
 #endif // ECS_COMPONENT_MANAGER_H
